@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silky Client</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #080f1a;
+    --bg2:        rgba(10,20,38,0.7);
+    --card:       rgba(10,22,42,0.85);
+    --card-border:rgba(56,189,248,0.2);
+    --nav-bg:     rgba(8,15,26,0.88);
+    --nav-border: rgba(56,189,248,0.15);
+    --text:       #e0f3ff;
+    --text-muted: #7dceff;
+    --text-dim:   #3a6a8a;
+    --window-bg:  #060e1a;
+    --window-bar: linear-gradient(135deg,#0d1f38,#0a1828);
+    --module-bg:  rgba(10,22,42,0.8);
+    --dl-card:    rgba(14,165,233,0.06);
+    --badge-bg:   rgba(10,22,42,0.9);
+    --btn2-bg:    rgba(10,22,42,0.8);
+    --btn2-border:rgba(56,189,248,0.3);
+    --version-bg: rgba(10,22,42,0.9);
+    --blob-op:    0.18;
+    --footer-bg:  rgba(8,15,26,0.7);
+    --b3: #38bdf8;
+    --b4: #0ea5e9;
+    --b5: #38bdf8;
+    --b6: #7dd3fc;
+    --shadow: rgba(56,189,248,0.22);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    font-family:'Nunito',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+  }
+
+  /* BLOBS */
+  .bg-blobs { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .blob {
+    position:absolute; border-radius:50%; filter:blur(80px);
+    opacity:var(--blob-op);
+    animation:blobFloat 8s ease-in-out infinite alternate;
+  }
+  .blob-1 { width:600px;height:600px;background:#38bdf8;top:-150px;left:-150px;animation-delay:0s; }
+  .blob-2 { width:500px;height:500px;background:#7dd3fc;bottom:-100px;right:-100px;animation-delay:3s; }
+  .blob-3 { width:300px;height:300px;background:#0ea5e9;top:40%;left:50%;animation-delay:1.5s; }
+  @keyframes blobFloat {
+    from { transform:translate(0,0) scale(1); }
+    to   { transform:translate(30px,20px) scale(1.05); }
+  }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0;left:0;right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:18px 60px;
+    background:var(--nav-bg);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--nav-border);
+  }
+
+  .nav-logo {
+    font-size:1.7rem; font-weight:900;
+    background:linear-gradient(135deg,var(--b5),var(--b3));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    letter-spacing:-0.5px;
+  }
+
+  .nav-links { display:flex; gap:36px; list-style:none; }
+  .nav-links a {
+    text-decoration:none; color:var(--text-muted); font-weight:700;
+    font-size:0.95rem; transition:color 0.2s; letter-spacing:0.3px;
+  }
+  .nav-links a:hover { color:var(--b5); }
+  .nav-btn {
+    background:linear-gradient(135deg,var(--b5),var(--b4)) !important;
+    color:white !important; -webkit-text-fill-color:white !important;
+    padding:10px 24px; border-radius:50px;
+    box-shadow:0 4px 18px var(--shadow);
+    transition:transform 0.2s, box-shadow 0.2s !important;
+  }
+  .nav-btn:hover { transform:translateY(-2px); box-shadow:0 8px 28px var(--shadow) !important; }
+
+  section { position:relative; z-index:1; }
+
+  /* HERO */
+  .hero {
+    min-height:100vh; display:flex; flex-direction:column;
+    justify-content:center; align-items:center; text-align:center;
+    padding:120px 40px 80px;
+  }
+
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--badge-bg); border:1.5px solid var(--b3);
+    border-radius:50px; padding:7px 20px; font-size:0.8rem; font-weight:700;
+    color:var(--b6); margin-bottom:28px; letter-spacing:0.5px;
+    text-transform:uppercase; animation:fadeUp 0.6s ease both;
+  }
+  .badge-dot { width:8px;height:8px;border-radius:50%;background:#22d3ee;animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+
+  .hero h1 {
+    font-size:clamp(4rem,10vw,9rem); font-weight:900; line-height:1; letter-spacing:-3px;
+    background:linear-gradient(160deg,#0ea5e9 0%,#38bdf8 40%,#7dd3fc 80%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    animation:fadeUp 0.7s 0.1s ease both;
+  }
+
+  .hero-sub {
+    font-size:clamp(1rem,2.5vw,1.35rem); color:var(--text-muted);
+    margin:20px 0 48px; max-width:560px; font-weight:600; line-height:1.6;
+    animation:fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display:flex; gap:16px; flex-wrap:wrap; justify-content:center;
+    animation:fadeUp 0.7s 0.3s ease both;
+  }
+
+  .btn-primary {
+    display:inline-flex; align-items:center; gap:10px;
+    background:linear-gradient(135deg,var(--b5),#38bdf8);
+    color:white; -webkit-text-fill-color:white;
+    padding:16px 36px; border-radius:50px;
+    font-size:1rem; font-weight:800; text-decoration:none;
+    box-shadow:0 8px 32px rgba(14,165,233,0.35);
+    transition:transform 0.2s, box-shadow 0.2s; letter-spacing:0.3px;
+  }
+  .btn-primary:hover { transform:translateY(-3px); box-shadow:0 14px 40px rgba(14,165,233,0.45); }
+
+  .btn-secondary {
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--btn2-bg); color:var(--b6); -webkit-text-fill-color:var(--b6);
+    padding:16px 36px; border-radius:50px;
+    font-size:1rem; font-weight:800; text-decoration:none;
+    border:2px solid var(--btn2-border);
+    transition:transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .btn-secondary:hover { transform:translateY(-3px); border-color:var(--b4); box-shadow:0 8px 24px rgba(14,165,233,0.15); }
+
+  .hero-visual { margin-top:70px; animation:fadeUp 0.8s 0.4s ease both; }
+
+  .mockup-window {
+    width:min(700px,90vw); background:var(--card); border-radius:24px;
+    border:2px solid var(--card-border); box-shadow:0 30px 80px rgba(14,165,233,0.2); overflow:hidden;
+  }
+  .window-bar {
+    background:var(--window-bar); padding:14px 20px;
+    display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--card-border);
+  }
+  .dot{width:12px;height:12px;border-radius:50%;}
+  .dot-red{background:#ff7b72;}.dot-yellow{background:#ffc453;}.dot-green{background:#72d48b;}
+  .window-title { margin:0 auto; font-size:0.8rem; font-weight:700; color:var(--text-muted); font-family:'Space Mono',monospace; }
+  .window-body {
+    padding:24px; background:var(--window-bg); font-family:'Space Mono',monospace;
+    font-size:0.8rem; line-height:1.8; color:var(--text-muted); text-align:left;
+  }
+  .line-green{color:#22c55e;}.line-blue{color:#38bdf8;}.line-gray{color:#4a6080;}.line-dim{color:var(--text-muted);}
+  .cursor{display:inline-block;width:2px;height:14px;background:#38bdf8;margin-left:2px;animation:blink 1s infinite;vertical-align:middle;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+  /* FEATURES */
+  .features { padding:100px 60px; max-width:1200px; margin:0 auto; }
+  .section-label {
+    text-align:center; font-size:0.8rem; font-weight:800;
+    text-transform:uppercase; letter-spacing:2px; color:var(--b5); margin-bottom:14px;
+  }
+  .section-title {
+    text-align:center; font-size:clamp(2rem,4vw,3rem); font-weight:900;
+    color:var(--text); margin-bottom:60px; letter-spacing:-1px;
+  }
+  .features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+  .feature-card {
+    background:var(--card); backdrop-filter:blur(20px);
+    border:1.5px solid var(--card-border); border-radius:24px; padding:32px;
+    transition:transform 0.3s, box-shadow 0.3s; box-shadow:0 4px 24px rgba(14,165,233,0.06);
+  }
+  .feature-card:hover { transform:translateY(-6px); box-shadow:0 16px 48px rgba(14,165,233,0.18); }
+  .feature-icon {
+    width:52px;height:52px; background:linear-gradient(135deg,var(--b4),var(--b3));
+    border-radius:16px; display:flex; align-items:center; justify-content:center;
+    font-size:1.5rem; margin-bottom:20px; box-shadow:0 4px 16px rgba(14,165,233,0.25);
+  }
+  .feature-card h3 { font-size:1.15rem; font-weight:800; color:var(--text); margin-bottom:10px; }
+  .feature-card p  { font-size:0.92rem; color:var(--text-muted); line-height:1.7; font-weight:600; }
+
+  /* MODULES */
+  .modules-section { padding:80px 60px; background:var(--bg2); backdrop-filter:blur(10px); }
+  .modules-inner { max-width:1100px; margin:0 auto; }
+  .modules-grid { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:40px; }
+  .module-tag {
+    background:var(--module-bg); border:1.5px solid var(--card-border);
+    border-radius:50px; padding:10px 22px; font-size:0.88rem; font-weight:800;
+    color:var(--text-muted); transition:all 0.2s; cursor:default;
+  }
+  .module-tag:hover {
+    background:linear-gradient(135deg,var(--b5),#38bdf8); color:white;
+    -webkit-text-fill-color:white; border-color:transparent; transform:scale(1.05);
+    box-shadow:0 4px 18px rgba(14,165,233,0.3);
+  }
+
+  /* BUY */
+  .buy-section { padding:100px 60px; text-align:center; }
+  .buy-card {
+    max-width:680px; margin:0 auto; background:var(--dl-card);
+    border:2px solid var(--card-border); border-radius:36px; padding:60px 48px;
+    box-shadow:0 20px 60px rgba(14,165,233,0.1); backdrop-filter:blur(20px);
+  }
+  .buy-card h2 { font-size:2.5rem; font-weight:900; color:var(--text); margin-bottom:16px; letter-spacing:-1px; }
+  .buy-card p  { color:var(--text-muted); font-size:1.05rem; font-weight:600; margin-bottom:36px; line-height:1.6; }
+  .version-badge {
+    display:inline-block; background:var(--version-bg); border:1.5px solid var(--b3);
+    border-radius:50px; padding:6px 18px; font-size:0.8rem; font-weight:800;
+    color:var(--b6); margin-bottom:32px; font-family:'Space Mono',monospace;
+  }
+
+  /* FOOTER */
+  footer {
+    padding:40px 60px; display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid var(--nav-border); background:var(--footer-bg);
+    backdrop-filter:blur(10px); flex-wrap:wrap; gap:16px;
+  }
+  .footer-logo {
+    font-size:1.4rem; font-weight:900;
+    background:linear-gradient(135deg,var(--b5),var(--b3));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  footer p { font-size:0.85rem; color:var(--text-dim); font-weight:600; }
+  .footer-links { display:flex; gap:24px; list-style:none; }
+  .footer-links a { color:var(--text-dim); text-decoration:none; font-size:0.85rem; font-weight:700; transition:color 0.2s; }
+  .footer-links a:hover { color:var(--b5); }
+
+  /* REVEAL */
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* Offset for fixed nav */
+  #features, #modules, #buy { scroll-margin-top: 80px; }
+
+  @media(max-width:768px){
+    nav { padding:16px 24px; }
+    .nav-links { display:none; }
+    .features,.modules-section,.buy-section { padding:60px 24px; }
+    footer { padding:32px 24px; flex-direction:column; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Silky</div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#buy">Buy</a></li>
+    <li><a href="#buy" class="nav-btn">Buy Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    v2.4 · Now Available
+  </div>
+  <h1>Silky</h1>
+  <p class="hero-sub">The modern Minecraft client that gives you the decisive edge. Fast. Precise. Unstoppable.</p>
+  <div class="hero-actions">
+    <a href="#buy" class="btn-primary">✦ Buy Now</a>
+    <a href="#features" class="btn-secondary">⚡ Explore Features</a>
+  </div>
+
+  <div class="hero-visual">
+    <div class="mockup-window">
+      <div class="window-bar">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+        <span class="window-title">silky.client — console</span>
+      </div>
+      <div class="window-body">
+        <div class="line-green">✓ Silky Client v2.4 started</div>
+        <div class="line-gray">──────────────────────────────</div>
+        <div class="line-blue">► KillAura &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ON]  &nbsp;Range: 3.5</div>
+        <div class="line-blue">► Scaffold &nbsp;&nbsp;&nbsp;&nbsp;[ON]  &nbsp;Speed: Turbo</div>
+        <div class="line-blue">► AntiKB &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ON]  &nbsp;Strength: 0.2</div>
+        <div class="line-blue">► Speed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ON]  &nbsp;Mode: Legit</div>
+        <div class="line-gray">──────────────────────────────</div>
+        <div class="line-dim">► ESP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[OFF]</div>
+        <div class="line-dim">► AimAssist &nbsp;&nbsp;[OFF]</div>
+        <div class="line-gray">──────────────────────────────</div>
+        <div class="line-green">✓ BypassCheck: Passed<span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="reveal">
+    <p class="section-label">What Silky can do</p>
+    <h2 class="section-title">Built for Dominance</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">⚡</div>
+      <h3>Blazing Performance</h3>
+      <p>Optimized core for maximum FPS. Silky runs smooth even on older systems — no lag, no excuses.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🎯</div>
+      <h3>Precise Combat</h3>
+      <p>KillAura, Aim Assist and hitbox optimizations that feel natural and are nearly impossible to detect.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🛡️</div>
+      <h3>Anti-Cheat Bypass</h3>
+      <p>Advanced bypass technology for the most common anti-cheat systems. Stay under the radar.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🎨</div>
+      <h3>Sleek GUI</h3>
+      <p>Modern ClickGUI with smooth animations and full customization — as elegant as the client itself.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🔧</div>
+      <h3>Fully Configurable</h3>
+      <p>Every module can be fine-tuned to your liking. Save profiles and load them with a single click.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🔄</div>
+      <h3>Regular Updates</h3>
+      <p>Silky is constantly evolving. New modules, bug fixes, and bypass updates ship regularly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section class="modules-section" id="modules">
+  <div class="modules-inner">
+    <div class="reveal">
+      <p class="section-label">All Modules</p>
+      <h2 class="section-title">Packed with Features</h2>
+    </div>
+    <div class="modules-grid reveal">
+      <span class="module-tag">KillAura</span>
+      <span class="module-tag">Scaffold</span>
+      <span class="module-tag">AntiKnockback</span>
+      <span class="module-tag">Speed</span>
+      <span class="module-tag">Sprint</span>
+      <span class="module-tag">Fly</span>
+      <span class="module-tag">NoFall</span>
+      <span class="module-tag">ESP</span>
+      <span class="module-tag">Tracers</span>
+      <span class="module-tag">Fullbright</span>
+      <span class="module-tag">AutoArmor</span>
+      <span class="module-tag">Reach</span>
+      <span class="module-tag">AimAssist</span>
+      <span class="module-tag">Velocity</span>
+      <span class="module-tag">Timer</span>
+      <span class="module-tag">AntiBot</span>
+      <span class="module-tag">NoSlowdown</span>
+      <span class="module-tag">Freecam</span>
+      <span class="module-tag">ChestStealer</span>
+      <span class="module-tag">FakeLag</span>
+      <span class="module-tag">+ many more</span>
+    </div>
+  </div>
+</section>
+
+<!-- BUY -->
+<section class="buy-section" id="buy">
+  <div class="buy-card reveal">
+    <div class="version-badge">v2.4 · Minecraft 1.8.9</div>
+    <h2>Ready to dominate?</h2>
+    <p>Get Silky and experience Minecraft on a whole new level. Setup takes less than 2 minutes.</p>
+    <a href="#" class="btn-primary" style="font-size:1.1rem;padding:18px 48px;">
+      ✦ &nbsp;Buy Silky
+    </a>
+    <p style="margin-top:20px;margin-bottom:0;font-size:0.82rem;">Windows 10 / 11 &nbsp;|&nbsp; Minecraft 1.8.9 &nbsp;|&nbsp; Java 8+</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Silky</div>
+  <p>© 2025 Silky Client. For private use only.</p>
+  <ul class="footer-links">
+    <li><a href="#">Discord</a></li>
+    <li><a href="#">GitHub</a></li>
+    <li><a href="#">Imprint</a></li>
+  </ul>
+</footer>
+
+<script>
+  // Scroll Reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav shadow on scroll
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.boxShadow = window.scrollY > 20
+      ? '0 4px 30px rgba(14,165,233,0.15)' : 'none';
+  });
+</script>
+</body>
+</html>
